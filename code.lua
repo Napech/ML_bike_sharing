@@ -24,6 +24,9 @@ mlp:add(nn.Tanh())
 criterion = nn.MSECriterion()  
 trainer = nn.StochasticGradient(mlp, criterion)
 trainer.learningRate = 0.01
+trainer.learningRateDecay = 0.01
+trainer.maxIteration = 1000
+
 
 dataset2={};
 function dataset2:size() return 100 end -- 100 examples
@@ -38,7 +41,7 @@ for i=1,dataset2:size() do
   dataset2[i] = {input, output}
 end
 
-for i=1,20 do
+for i=1,1 do
 trainer:train(dataset)
 if i % 1 == 0 then
 err = 0
