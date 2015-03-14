@@ -11,7 +11,7 @@ def convert_date(date):
     
 
 
-with open('data/train.csv', 'rb') as csvfile:
+with open('train.csv', 'rb') as csvfile:
     read = csv.reader(csvfile)
     print "dataset = {};"
     i = 0
@@ -66,4 +66,49 @@ with open('data/train.csv', 'rb') as csvfile:
 
         i+=1
     print "function dataset:size() return %s end" % (i-1)
+
+with open('test.csv', 'rb') as csvfile:
+    read = csv.reader(csvfile)
+    print "testset = {};"
+    i = 0
+    
+    for row in read:
+        if i == 0:
+            i+=1
+            continue
+        print "testset["+str(i)+"] = {}" 
+        print "testset["+str(i)+"][1] = torch.Tensor(10)"
+
+        print "testset["+str(i)+"][1][1] =",
+        print convert_date(row[0]), ";"
+
+        print "testset["+str(i)+"][1][2] =",
+        print convert_time(row[0]), ";"
+
+        print "testset["+str(i)+"][1][3] =",
+        print row[1], ";"
+
+        print "testset["+str(i)+"][1][4] =",
+        print row[2], ";"
+
+        print "testset["+str(i)+"][1][5] =",
+        print row[3], ";"
+
+        print "testset["+str(i)+"][1][6] =",
+        print row[4], ";"
+
+        print "testset["+str(i)+"][1][7] =",
+        print row[5], ";"
+
+        print "testset["+str(i)+"][1][8] =",
+        print row[6], ";"
+
+        print "testset["+str(i)+"][1][9] =",
+        print row[7], ";"
+
+        print "testset["+str(i)+"][1][10] =",
+        print row[8], ";"
+
+        i+=1
+    print "function testset:size() return %s end" % (i-1)
 
