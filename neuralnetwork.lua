@@ -4,17 +4,11 @@ import('datacleaning.lua')
 
 mlp = nn.Sequential();
 
-inputs = dataset[1][1]:size(1); outputs = dataset[1][2]:size(1); HUs = 400; -- parameters
+inputs = dataset[1][1]:size(1); outputs = dataset[1][2]:size(1); HUs = 300; -- parameters
 mlp:add(nn.Linear(inputs, HUs))
 mlp:add(nn.Tanh())
 mlp:add(nn.Linear(HUs, HUs))
-mlp:add(nn.Tanh())
-mlp:add(nn.Linear(HUs, HUs))
 mlp:add(nn.Sigmoid())
-mlp:add(nn.Linear(HUs, HUs))
-mlp:add(nn.Tanh())
-mlp:add(nn.Linear(HUs, HUs))
-mlp:add(nn.Tanh())
 mlp:add(nn.Linear(HUs, HUs))
 mlp:add(nn.Tanh())
 mlp:add(nn.Linear(HUs, outputs))
