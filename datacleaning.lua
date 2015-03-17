@@ -1,4 +1,4 @@
-import 'data/dataset.lua'
+import 'load.lua'
 
 function center(a,b,data,test)
    mean = 0.0
@@ -31,23 +31,23 @@ end
 
 
 
-function extract_features(data,ndata)
-    for i=1, table.getn(data) do
-      ndata[i] = {}
-      ndata[i][1] = torch.Tensor(13):fill(0)
-      ndata[i][2] = data[i][2]
-      ndata[i][1][1] = data[i][1][1]  -- copying date
-      ndata[i][1][2] = data[i][1][2]  -- copying time
-      ndata[i][1][data[i][1][3]+2] = 1 -- setting season
-      ndata[i][1][7] = data[i][1][4]
-      ndata[i][1][8] = data[i][1][5]
-      ndata[i][1][9] = data[i][1][6]
-      ndata[i][1][10] = data[i][1][7]
-      ndata[i][1][11] = data[i][1][8]
-      ndata[i][1][12] = data[i][1][9]
-      ndata[i][1][13] = data[i][1][10]
-   end
-end
+-- function extract_features(data,ndata)
+--     for i=1, table.getn(data) do
+--       ndata[i] = {}
+--       ndata[i][1] = torch.Tensor(13):fill(0)
+--       ndata[i][2] = data[i][2]
+--       ndata[i][1][1] = data[i][1][1]  -- copying date
+--       ndata[i][1][2] = data[i][1][2]  -- copying time
+--       ndata[i][1][data[i][1][3]+2] = 1 -- setting season
+--       ndata[i][1][7] = data[i][1][4]
+--       ndata[i][1][8] = data[i][1][5]
+--       ndata[i][1][9] = data[i][1][6]
+--       ndata[i][1][10] = data[i][1][7]
+--       ndata[i][1][11] = data[i][1][8]
+--       ndata[i][1][12] = data[i][1][9]
+--       ndata[i][1][13] = data[i][1][10]
+--    end
+-- end
 
 function reduce(data, test)
    for i=1, data[1][1]:size(1) do
@@ -78,11 +78,11 @@ end
 val = {}
 ndata = {}
 
-extract_features(dataset,ndata)
-dataset = ndata
+-- extract_features(dataset,ndata)
+-- dataset = ndata
 ndata={}
-extract_features(testset,ndata)
-testset=ndata
+-- extract_features(testset,ndata)
+-- testset=ndata
 reduce(dataset,testset)
 ndata={}
 split_dataset(dataset,ndata,val)

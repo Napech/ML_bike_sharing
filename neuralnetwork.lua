@@ -8,6 +8,8 @@ inputs = dataset[1][1]:size(1); outputs = dataset[1][2]:size(1); HUs = 300; -- p
 mlp:add(nn.Linear(inputs, HUs))
 mlp:add(nn.Tanh())
 mlp:add(nn.Linear(HUs, HUs))
+mlp:add(nn.Sigmoid())
+mlp:add(nn.Linear(HUs, HUs))
 mlp:add(nn.Tanh())
 mlp:add(nn.Linear(HUs, outputs))
 
@@ -22,7 +24,7 @@ nerr = 100000
 err_min = nerr
 count = 0
 learningRateDecay = 0.001
-maxiter = 10000
+maxiter = 100
 bestcount = 0
 while (nerr <= 1.5*err_min and count < maxiter) do
       if (bestcount < count - 15) then count = maxiter end
@@ -50,7 +52,7 @@ end
 io.output('data/result.txt')
 result = {}
 for i=1, testset.size() do
-    result[i] = (mlp2:forward(testset[i][1]))[3]
+    result[i] = (mlp2:forward(testset[i][1]))[1]
     temp = tostring(result[i])
     io.write(temp .. "\n")
 end
