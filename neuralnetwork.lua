@@ -22,7 +22,7 @@ nerr = 100000
 err_min = nerr
 count = 0
 learningRateDecay = 0.001
-maxiter = 1000
+maxiter = 10000
 bestcount = 0
 while (nerr <= 1.5*err_min and count < maxiter) do
       if (bestcount < count - 15) then count = maxiter end
@@ -47,7 +47,7 @@ while (nerr <= 1.5*err_min and count < maxiter) do
       io.write("\n")
 end
 
-io.ouput('data/result.txt')
+io.output('data/result.txt')
 result = {}
 for i=1, testset.size() do
     result[i] = (mlp2:forward(testset[i][1]))[3]

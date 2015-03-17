@@ -10,7 +10,6 @@ def convert_date(date):
     return dic[month] + day
     
 
-
 with open('train.csv', 'rb') as csvfile:
     read = csv.reader(csvfile)
     print "dataset = {};"
