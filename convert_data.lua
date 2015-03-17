@@ -1,4 +1,3 @@
-require 'image'
 require './SETTINGS'
 
 string.split_it = function(str, sep)
@@ -21,6 +20,21 @@ end
 local TRAIN_N = 10887
 -- TODO: no hard code
 local NB_PARAMS = 12
+local function convert_datetime(s)
+   local date = string.split(s, " ")[1]
+   local time = string.split(s, " ")[2]
+   local year = string.split(date, "-")[1]
+   local month = string.split(date, "-")[2]
+   local day = string.split(date, "-")[3]
+   local hour = string.split(time, " ")[0]
+   return({year, month, day, hour})
+end
+
+local function convert_row(row)
+   return(convert_datetime(row[1]))
+end
+
+local maxParameters = 3
 
 local function convert_train()
    local label_file = string.format("%s/train.csv", DATA_DIR)
@@ -33,10 +47,14 @@ local function convert_train()
       if head then
 	 head = false
       else
-	 local col = string.split(line, ",")
-	 local img = image.load(string.format("%s/train/%d.png", DATA_DIR, tonumber(col[1])))
-	 x[i]:copy(img)
-	 y[i]:copy(label_vector(col[2]))
+	 local row = string.split(line, ",")
+	 local convRow = convert_row(row)
+	 if i == 1 then
+	    print(convRow)
+	 end
+	 for j=1, table.getn(convRow) do
+	    x[i][j] = convRow[j]
+	 end
 	 if i % 100 == 0 then
 	    xlua.progress(i, TRAIN_N)
 	 end
@@ -44,25 +62,24 @@ local function convert_train()
       end
    end
    file:close()
-   
    torch.save(string.format("%s/train_x.bin", DATA_DIR), x)
-   torch.save(string.format("%s/train_y.bin", DATA_DIR), y)
 end
-local TEST_N = 300000
-local function convert_test()
-   local x = torch.Tensor(TEST_N, 3, 32, 32)
-   local i = 1
-   for i = 1, TEST_N do
-      local img = image.load(string.format("%s/test/%d.png", DATA_DIR, i))
-      x[i]:copy(img)
-      if i % 100 == 0 then
-	 xlua.progress(i, TEST_N)
-      end
-   end
-   torch.save(string.format("%s/test_x.bin", DATA_DIR), x)
-end
+
+-- local TEST_N = 300000
+-- local function convert_test()
+--    local x = torch.Tensor(TEST_N, 3, 32, 32)
+--    local i = 1
+--    for i = 1, TEST_N do
+--       local img = image.load(string.format("%s/test/%d.png", DATA_DIR, i))
+--       x[i]:copy(img)
+--       if i % 100 == 0 then
+-- 	 xlua.progress(i, TEST_N)
+--       end
+--    end
+--    torch.save(string.format("%s/test_x.bin", DATA_DIR), x)
+-- end
 
 print("convert train data ...")
 convert_train()
-print("convert test data ...")
-convert_test()
+-- print("convert test data ...")
+-- convert_test()
