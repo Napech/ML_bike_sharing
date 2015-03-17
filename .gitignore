@@ -1,0 +1,5 @@
+log_files/*
+data/dataset.lua
+data/test_corr.py
+data/test_corr.csv
+data/plotDays.py
