@@ -51,7 +51,8 @@ def Held_Karp_algo(dist, nb_nodes):
         if opt == -1 or opt > C[(all_sets, k)] + dist[0][k]:
             opt = C[(all_sets, k)] + dist[0][k]
             perm = k
-    return opt, k
+    return opt
+
 
 
 def check_all(dist, nb_nodes):
@@ -70,12 +71,13 @@ def check_all(dist, nb_nodes):
 " This takes the number of nodes and return the the position of the nodes
 " and the matrix of the distances between the nodes
 """    
-def make_instance(nb_nodes):
+def make_instance(mean):
     pos = []
     # Todo : Set probabilities
-    pos_x = np.random.poisson(nb_nodes,nb_nodes)
-    pos_y = np.random.poisson(nb_nodes,nb_nodes)
-    pos = zip(pos_x,pos_y)
+    nb_nodes = mean
+    pos_x = np.random.random(nb_nodes)
+    pos_y = np.random.random(nb_nodes)
+    pos = zip(pos_x, pos_y)
     # example: 
     # pos = [(i,i) for i in xrange(nb_nodes)]
     
@@ -86,20 +88,21 @@ def make_instance(nb_nodes):
             dist_ij = math.sqrt((pos[i][0] - pos[j][0])**2
                                 + (pos[i][1] - pos[j][1])**2)
             dist[i].append(dist_ij)
-    return (pos,dist)
+    return (pos,dist, nb_nodes)
 
 
         # x = np.random.binomial(nOfEach[0] - 1, probs[0][0])
         # y = np.random.binomial(nOfEach[0] - 1, probs[0][0])
         # neighbs1 = rnd.sample(xrange(0, nOfEach[0] - 1), deg1)
 
-nb_nodes = 10
-pos,dist = make_instance(nb_nodes)
+mean = 16
+pos,dist,nb_nodes = make_instance(mean)
 
 print Held_Karp_algo(dist, nb_nodes)
-print check_all(dist, nb_nodes)
-pos,dist = make_instance(nb_nodes)
+# print check_all(dist, nb_nodes)
 
-print Held_Karp_algo(dist, nb_nodes)
-print check_all(dist, nb_nodes)
+for i in xrange(10000):
+    pos,dist,nb_nodes = make_instance(mean)
+    print Held_Karp_algo(dist, nb_nodes)
+# print check_all(dist, nb_nodes)
 
