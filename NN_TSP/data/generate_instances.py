@@ -21,8 +21,10 @@ from copy import deepcopy
 def Held_Karp_algo(dist, nb_nodes):
     from itertools import combinations
     C = {}
+    Path = {}
     for k in xrange(1,nb_nodes):
          C[((0, k), k)] = dist[0][k]
+         Path[((0, k), k)] = [k]
     a = [i for i in xrange(nb_nodes)]
     for size in xrange(3,nb_nodes+1):
         subsets_size_s = list(itertools.combinations(a, size))
@@ -32,7 +34,7 @@ def Held_Karp_algo(dist, nb_nodes):
             for k in s:
                 if k == 0:
                     continue
-                # print "treating ",k, "with ", s
+
                 for m in s:
                     if m == 0 or m == k:
                         continue
@@ -40,18 +42,18 @@ def Held_Karp_algo(dist, nb_nodes):
                     l.remove(k)
                     l.sort()
                     s2 = tuple(l)
-                    # print s, k, s2
-                    if not (s, k) in C:
+
+                    if not (s, k) in C or C[(s, k)] > C[(s2, m)] + dist[m][k]:
                         C[(s, k)] = C[(s2, m)] + dist[m][k]
-                    C[(s, k)] = min(C[(s, k)], C[(s2, m)] + dist[m][k])
+                        Path[(s,k)] = Path[(s2,m)]+[k]
     opt = -1
     all_sets = tuple(i for i in xrange(nb_nodes))
     perm = {}
     for k in xrange(1,nb_nodes):
         if opt == -1 or opt > C[(all_sets, k)] + dist[0][k]:
             opt = C[(all_sets, k)] + dist[0][k]
-            perm = k
-    return opt
+            perm = [0]+Path[(all_sets,k)]
+    return perm, opt
 
 
 
@@ -95,7 +97,7 @@ def make_instance(mean):
         # y = np.random.binomial(nOfEach[0] - 1, probs[0][0])
         # neighbs1 = rnd.sample(xrange(0, nOfEach[0] - 1), deg1)
 
-mean = 16
+mean = 10
 pos,dist,nb_nodes = make_instance(mean)
 
 print Held_Karp_algo(dist, nb_nodes)
@@ -103,6 +105,7 @@ print Held_Karp_algo(dist, nb_nodes)
 
 for i in xrange(10000):
     pos,dist,nb_nodes = make_instance(mean)
-    print Held_Karp_algo(dist, nb_nodes)
-# print check_all(dist, nb_nodes)
+    tour, val = Held_Karp_algo(dist, nb_nodes)
+    print [i for i in xrange(nb_nodes)], tour, val
+print check_all(dist, nb_nodes)
 
