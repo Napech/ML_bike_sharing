@@ -100,12 +100,12 @@ def make_instance(mean):
 mean = 10
 pos,dist,nb_nodes = make_instance(mean)
 
-print Held_Karp_algo(dist, nb_nodes)
+#print Held_Karp_algo(dist, nb_nodes)
 # print check_all(dist, nb_nodes)
 
 for i in xrange(10000):
     pos,dist,nb_nodes = make_instance(mean)
     tour, val = Held_Karp_algo(dist, nb_nodes)
-    print [i for i in xrange(nb_nodes)], tour, val
-print check_all(dist, nb_nodes)
+    print [pos[i] for i in xrange(nb_nodes)], tour, val
+#print check_all(dist, nb_nodes)
 
