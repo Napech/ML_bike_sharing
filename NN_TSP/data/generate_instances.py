@@ -74,12 +74,12 @@ def check_all(dist, nb_nodes):
 " and the matrix of the distances between the nodes
 """    
 def make_instance(mean):
-    pos = []
+    pos = {}
     # Todo : Set probabilities
     nb_nodes = mean
     pos_x = np.random.random(nb_nodes)
     pos_y = np.random.random(nb_nodes)
-    pos = zip(pos_x, pos_y)
+    pos = {i: (pos_x[i], pos_y[i]) for i in xrange(nb_nodes)}
     # example: 
     # pos = [(i,i) for i in xrange(nb_nodes)]
     
@@ -106,6 +106,10 @@ pos,dist,nb_nodes = make_instance(mean)
 for i in xrange(10000):
     pos,dist,nb_nodes = make_instance(mean)
     tour, val = Held_Karp_algo(dist, nb_nodes)
-    print [pos[i] for i in xrange(nb_nodes)], tour, val
+    for i in xrange(nb_nodes):
+        print str(pos[i][0])+" "+str(pos[i][1]),
+    for i in tour:
+        print str(pos[i][0])+" "+str(pos[i][1]),
+    print val
 #print check_all(dist, nb_nodes)
 
