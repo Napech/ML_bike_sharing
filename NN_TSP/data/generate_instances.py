@@ -105,6 +105,7 @@ pos,dist,nb_nodes = make_instance(mean)
 
 for i in xrange(10000):
     pos,dist,nb_nodes = make_instance(mean)
+    sys.stderr.write(str(nb_nodes))
     tour, val = Held_Karp_algo(dist, nb_nodes)
     for i in xrange(nb_nodes):
         print str(pos[i][0])+" "+str(pos[i][1]),
