@@ -27,7 +27,7 @@ nerr = 100000
 err_min = nerr
 count = 0
 learningRateDecay = 0.001
-maxiter = 100
+maxiter = 4
 bestcount = 0
 while (nerr <= 1.5*err_min and count < maxiter) do
       if (bestcount < count - 15) then count = maxiter end
@@ -55,8 +55,8 @@ end
 io.output('data/result.txt')
 result = {}
 for i=1, testset.size() do
-    result[i] = (mlp2:forward(testset[i][1]))[1]
-    temp = tostring(result[i])
-    io.write(temp .. "\n")
+   result[i] = mlp2:forward(testset[i][1])
+   temp = tostring(result[i])
+   io.write(temp .. "\n")
 end
 
